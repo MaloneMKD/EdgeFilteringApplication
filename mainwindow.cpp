@@ -24,7 +24,6 @@ MainWindow::MainWindow(QWidget *parent)
     // Initialize variables
     threshold = 50;
     imageScaled = false;
-    filterApplied = false;
 }
 
 MainWindow::~MainWindow()
@@ -72,7 +71,10 @@ void MainWindow::openImage()
             imageScaled = true;
         }
         else
-            ui->label->setPixmap((pic));
+        {
+            ui->label->setPixmap(pic);
+            imageScaled = false;
+        }
 
         if(imageScaled)
             ui->statusUpdateLabel->setText("Image has been scaled to fit the window. Image will be filtered and saved with original resolution");
@@ -124,19 +126,40 @@ void MainWindow::filter()
 
     // Display image (possibly scaled to width) to screen
     if(filteredImg.width() > 1480 || filteredImg.height() > 720)
+    {
         ui->label->setPixmap((QPixmap::fromImage(filteredImg).scaled(filteredImg.width()/1.5, filteredImg.height()/1.5)));
+        imageScaled = true;
+    }
     else
+    {
         ui->label->setPixmap((QPixmap::fromImage(filteredImg)));
+        imageScaled = false;
+    }
+
+    if(imageScaled)
+        ui->statusUpdateLabel->setText("Image has been scaled to fit the window. Image will be filtered and saved with original resolution");
+    else
+        ui->statusUpdateLabel->setText("");
 }
 
 void MainWindow::clearFilter()
 {
     filteredImg = inputImg;
     if(filteredImg.width() > 1480 || filteredImg.height() > 720)
+    {
         ui->label->setPixmap((QPixmap::fromImage(filteredImg).scaled(filteredImg.width()/1.5, filteredImg.height()/1.5)));
+        imageScaled = true;
+    }
     else
+    {
         ui->label->setPixmap((QPixmap::fromImage(filteredImg)));
-    ui->statusUpdateLabel->setText("");
+        imageScaled = false;
+    }
+
+    if(imageScaled)
+        ui->statusUpdateLabel->setText("Image has been scaled to fit the window. Image will be filtered and saved with original resolution");
+    else
+        ui->statusUpdateLabel->setText("");
 }
 
 void MainWindow::changeThreshold(int val)

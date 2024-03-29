@@ -40,7 +40,6 @@ private:
     QImage filteredImg;
     int threshold;
     bool imageScaled;
-    bool filterApplied;
 
     // Private functions
     int getFilteredPixel(int x, int y, QImage img);
