@@ -58,7 +58,7 @@ void MainWindow::sorbelFilter(QImage &img)
 
 void MainWindow::openImage()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Open File", QDir::homePath(), "PNG (*.png)");
+    QString filename = QFileDialog::getOpenFileName(this, "Open File", QDir::homePath(), "PNG (*.png);; JPG(*.jpg *.jpeg);; BMP(*.bmp)");
 
     if(filename != "")
     {
